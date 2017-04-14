@@ -1,0 +1,42 @@
+#In This tutorial, you will rip out PHP 5.4, and install Remi versions of 5.4, 5.6, 7.0, 7.0, with opcache.
+#You'll need to remove any php versions you have installed in CentOS. Use
+
+rpm -qa | grep php
+
+#to find out what PHP you have installed. yum remove everything. I used the following command. Yours will vary:
+yum -y remopve php-mysql php-snmp php-pdo php-gd php-odbc php-common php-cli php php-pgsql php-xmlrpc php-imap php-mbstring php-process php-xml
+
+#Not wo install the Remi repository:
+
+wget http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+sudo rpm -Uvh remi-release-7*.rpm
+
+#Now you will install PHP 5.4, 5.6, 7.0, 7.1 from the Remi repository. If you want 5.5, you can add it, just replace 54 with 55
+yum -y install php54 php54-common php54-php-mysqlnd php54-php-curl php54-php-simplexml php54-php-devel php54-php-gd php54-php-json php54-php-mcrypt php54-php-mbstring php54-php-opcache php54-php-pear php54-php-pecl-apcu php54-php-pecl-geoip php54-php-pecl-imagick php54-php-pecl-json-post php54-php-pecl-memcache php54-php-pecl-xmldiff php54-php-pecl-zip php54-php-pspell php54-php-soap php54-php-tidy php54-php-xml php54-php-xmlrpc
+yum -y install php56 php56-common php56-php-mysqlnd php56-php-curl php56-php-simplexml php56-php-devel php56-php-gd php56-php-json php56-php-mcrypt php56-php-mbstring php56-php-opcache php56-php-pear php56-php-pecl-apcu php56-php-pecl-geoip php56-php-pecl-imagick php56-php-pecl-json-post php56-php-pecl-memcache php56-php-pecl-xmldiff php56-php-pecl-zip php56-php-pspell php56-php-soap php56-php-tidy php56-php-xml php56-php-xmlrpc
+yum -y install php70 php70-common php70-php-mysqlnd php70-php-curl php70-php-simplexml php70-php-devel php70-php-gd php70-php-json php70-php-mcrypt php70-php-mbstring php70-php-opcache php70-php-pear php70-php-pecl-apcu php70-php-pecl-geoip php70-php-pecl-imagick php70-php-pecl-json-post php70-php-pecl-memcache php70-php-pecl-xmldiff php70-php-pecl-zip php70-php-pspell php70-php-soap php70-php-tidy php70-php-xml php70-php-xmlrpc
+yum -y install php71 php71-common php71-php-mysqlnd php71-php-curl php71-php-simplexml php71-php-devel php71-php-gd php71-php-json php71-php-mcrypt php71-php-mbstring php71-php-opcache php71-php-pear php71-php-pecl-apcu php71-php-pecl-geoip php71-php-pecl-imagick php71-php-pecl-json-post php71-php-pecl-memcache php71-php-pecl-xmldiff php71-php-pecl-zip php71-php-pspell php71-php-soap php71-php-tidy php71-php-xml php71-php-xmlrpc
+
+#You'll notice there is no "php" command at the the CLIpick the version of php you want on the command line. Example for php 7.0:
+
+nano /etc/yum.repos.d/rei-php70.repo 
+
+#The file appears as below, but with 'enabled=0'
+----------------------------------------------------------- 
+[remi-php70]
+name=Remi's PHP 7.0 RPM repository for Enterprise Linux 7 - $basearch
+#baseurl=http://rpms.remirepo.net/enterprise/7/php70/$basearch/
+#mirrorlist=https://rpms.remirepo.net/enterprise/7/php70/httpsmirror
+mirrorlist=http://rpms.remirepo.net/enterprise/7/php70/mirror
+enabled=1
+----------------------------------------------------------- 
+#Last line change to enabled=1
+#Save the file and then run the following command:
+
+yum install php-cli
+
+#Now you have php-cli:
+#[root@server /etc/yum.repos.d]# php -v
+#PHP 7.0.18 (cli) (built: Apr 11 2017 14:25:57) ( NTS )
+
+#Now restart Apache and you're good to go. 
